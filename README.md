@@ -11,10 +11,10 @@ To record an hourly upload limit for a storage provider, send a POST request to 
 
 - `address`: the address of the storage provider
 - `limit`: the upload limit for the current hour
-Example:
 
+Example:
 ```
-POST /record-upload-limit?address=example.com&limit=100
+POST /record-upload-limit?miner=f1234&limit=100
 ```
 
 ### Record Upload Size
@@ -24,7 +24,7 @@ To record an upload size for a storage provider, send a POST request to the /rec
 - `size`: the size of the upload in byte
 
 ```
-POST /record-upload-size?address=example.com&size=5000000
+POST /record-upload-size?miner=f01234&size=5000000
 ```
 
 ### Check Upload Limit
@@ -33,7 +33,7 @@ To check if a storage provider is within its hourly upload limit, send a GET req
 - `address`: the address of the storage provider
 
 ```
-GET /check-upload-limit?address=example.com
+GET /check-upload-limit?miner=f01234
 ```
 
 If the storage provider is within its limit, the API will return a JSON object with the storage provider data. If the storage provider has exceeded its limit, the API will return a 429 Too Many Requests error.

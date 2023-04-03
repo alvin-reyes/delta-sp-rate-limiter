@@ -14,7 +14,7 @@ import (
 
 type StorageProvider struct {
 	ID         uint   `gorm:"primarykey"`
-	Address    string `gorm:"unique"`
+	Miner      string `gorm:"unique"`
 	UploadSize int    `gorm:"default:0"`
 	Uploads    []int  `gorm:"type:integer[]"`
 	Limits     []int  `gorm:"type:integer[]"`
@@ -35,7 +35,7 @@ func initDB() {
 
 func recordUploadLimit(w http.ResponseWriter, r *http.Request) {
 	// Parse request parameters
-	address := r.URL.Query().Get("address")
+	address := r.URL.Query().Get("miner")
 	uploadLimit, err := strconv.Atoi(r.URL.Query().Get("limit"))
 	if err != nil {
 		http.Error(w, "Invalid upload limit", http.StatusBadRequest)
@@ -48,12 +48,12 @@ func recordUploadLimit(w http.ResponseWriter, r *http.Request) {
 	if !ok {
 		// Check if provider exists in database
 		var dbProvider StorageProvider
-		if err := db.First(&dbProvider, "address = ?", address).Error; err == nil {
+		if err := db.First(&dbProvider, "miner = ?", address).Error; err == nil {
 			provider = &dbProvider
 			storageProviders[address] = provider
 		} else {
 			provider = &StorageProvider{
-				Address: address,
+				Miner:   address,
 				Uploads: make([]int, 24),
 				Limits:  make([]int, 24),
 			}
@@ -75,7 +75,7 @@ func recordUploadLimit(w http.ResponseWriter, r *http.Request) {
 
 func recordUploadSize(w http.ResponseWriter, r *http.Request) {
 	// Parse request parameters
-	address := r.URL.Query().Get("address")
+	address := r.URL.Query().Get("miner")
 	uploadSize, err := strconv.Atoi(r.URL.Query().Get("size"))
 	if err != nil {
 		http.Error(w, "Invalid upload size", http.StatusBadRequest)
@@ -88,12 +88,12 @@ func recordUploadSize(w http.ResponseWriter, r *http.Request) {
 	if !ok {
 		// Check if provider exists in database
 		var dbProvider StorageProvider
-		if err := db.First(&dbProvider, "address = ?", address).Error; err == nil {
+		if err := db.First(&dbProvider, "miner = ?", address).Error; err == nil {
 			provider = &dbProvider
 			storageProviders[address] = provider
 		} else {
 			provider = &StorageProvider{
-				Address: address,
+				Miner:   address,
 				Uploads: make([]int, 24),
 				Limits:  make([]int, 24),
 			}
