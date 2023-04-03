@@ -41,4 +41,5 @@ If the storage provider is within its limit, the API will return a JSON object w
 ## Database
 This web service uses a SQLite database to store storage provider data. The database is created and initialized automatically when the server is started. The StorageProvider model is defined in the main.go file, and the gorm.AutoMigrate() function is called in the initDB() function to automatically create the necessary tables and columns.
 
-## Hook this to a Delta INstance
+## Hook this to a Delta Instance
+*WIP*
